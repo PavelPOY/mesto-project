@@ -1,6 +1,6 @@
 .elements__button {
-  width: 23px;
-  height: 19px;
+  min-width: 23px;
+  min-height: 19px;
   border: 0;
   background-color: #FFFFFF;
   background-image: url(../../../images/elements-button.svg);

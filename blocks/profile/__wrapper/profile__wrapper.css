@@ -6,6 +6,7 @@
 
 @media screen and (max-width: 325px) {
   .profile__wrapper {
+    padding-top: 26px;
     gap:10px;
   }
 }

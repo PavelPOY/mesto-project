@@ -8,9 +8,3 @@
     align-self: center;
   }
 }
-
-@media screen and (max-width: 325px) {
-  .profile__image {
-    padding-bottom: 26px;
-  }
-}
