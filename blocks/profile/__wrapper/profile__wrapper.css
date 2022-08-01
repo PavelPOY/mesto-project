@@ -1,0 +1,11 @@
+.profile__wrapper {
+  display: flex;
+  gap:18px;
+
+}
+
+@media screen and (max-width: 325px) {
+  .profile__wrapper {
+    gap:10px;
+  }
+}
