@@ -7,7 +7,7 @@
   <meta name="keywords" content="HTML5, CSS, Flex, Grid">
   <meta name="author" content="Янчуков Павел">
   <link rel='stylesheet' href='./pages/index.css'>
-  <title>Project 2</title>
+  <title>Mesto</title>
 </head>
 <body class="body">
   <!-- Основной контейнер START -->
@@ -37,53 +37,7 @@
       <!-- SECTION ELEMENTS START -->
       <section class="elements">
 
-        <article class="elements__card">
-          <img src="./images/Karachaevsk.png" alt="Карачаево-Черкесия" class="elements__image">
-          <div class="elements__wrapper">
-            <h2 class="elements__title">Карачаевск</h2>
-            <button type="button" class="elements__button elements__button_active"></button>
-          </div>
-        </article>
-
-        <article class="elements__card">
-          <img src="./images/Gora-Elbrus.png" alt="Гора Эльбрус" class="elements__image">
-          <div class="elements__wrapper">
-            <h2 class="elements__title">Гора Эльбрус</h2>
-            <button type="button" class="elements__button"></button>
-          </div>
-        </article>
-
-        <article class="elements__card">
-          <img src="./images/Dombaj.png" alt="Домбай" class="elements__image">
-          <div class="elements__wrapper">
-            <h2 class="elements__title">Домбай</h2>
-            <button type="button" class="elements__button"></button>
-          </div>
-        </article>
-
-        <article class="elements__card">
-          <img src="./images/Gora-Elbrus.png" alt="Гора Эльбрус" class="elements__image">
-          <div class="elements__wrapper">
-            <h2 class="elements__title">Гора Эльбрус</h2>
-            <button type="button" class="elements__button"></button>
-          </div>
-        </article>
-
-        <article class="elements__card">
-          <img src="./images/Dombaj.png" alt="Домбай" class="elements__image">
-          <div class="elements__wrapper">
-            <h2 class="elements__title">Домбай</h2>
-            <button type="button" class="elements__button"></button>
-          </div>
-        </article>
-
-        <article class="elements__card">
-          <img src="./images/Karachaevsk.png" alt="Карачаево-Черкесия" class="elements__image">
-          <div class="elements__wrapper">
-            <h2 class="elements__title">Карачаево-Черкесия</h2>
-            <button type="button" class="elements__button"></button>
-          </div>
-        </article>
+       
 
       </section>
       <!-- SECTION ELEMENTS END -->
@@ -96,9 +50,9 @@
     </footer>
     <!-- FOOTER END -->
 
-    <!-- SECTION POPUP START -->
+    <!-- SECTION POPUP PROFILE START -->
      
-    <section class="popup">
+    <section id="profile" class="popup">
       <div class="popup__container">
         <h2 class="popup__title">Редактировать профиль</h2>
         <form class="popup__form" name="profile-form">
@@ -110,9 +64,49 @@
       </div>
     </section>
    
-    <!-- SECTION POPUP END -->
+    <!-- SECTION POPUP PROFILE END -->
+
+    <!-- SECTION POPUP CARD START -->
+     
+    <section id="card" class="popup">
+      <div class="popup__container">
+        <h2 class="popup__title">Новое Место</h2>
+        <form class="popup__form" name="card-form">
+          <input class="popup__input" type="text" name="card-name" placeholder="Название">
+          <input class="popup__input" type="text" name="card-about" placeholder="Ссылка на картинку">
+          <button class="popup__save-button" type="submit">Сохранить</button>
+        </form>
+        <button class="popup__close-button" type="button"></button>
+      </div>
+    </section>
+   
+    <!-- SECTION POPUP CARD END -->
+
+    <!-- SECTION POPUP IMAGE START-->
+    <section id="image" class="popup">
+      <div class="popup__image-container">
+        <img src="./images/Karachaevsk.png" alt="Карачаево-Черкесия" class="popup__image">
+        <p class="popup__image-caption">Карачаево-Черкесия</p>
+        <button class="popup__close-button" type="button"></button>
+      </div>
+    </section>
+    <!-- SECTION POPUP IMAGE END-->
+
+    <!-- SECTION TEMPLATE START-->
+    <template id="elements__template">
+      <article class="elements__card">
+        <img src="" alt="" class="elements__image">
+        <div class="elements__wrapper">
+          <h2 class="elements__title"></h2>
+          <button type="button" class="elements__button"></button>
+        </div>
+        <button type="button" class="elements__button-delete"></button>        
+      </article>
+    </template>
+    <!-- SECTION TEMPLATE END-->
 
   </div>
   <!-- Основной контейнер END -->
+  <script src="./index.js"></script>
 </body>
 </html>
