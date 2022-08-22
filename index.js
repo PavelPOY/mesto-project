@@ -102,7 +102,7 @@ function createCard(data) {
   });
 //DELETE
   cardDelete.addEventListener('click', (evt) => {
-    evt.target.parentNode.remove();
+    evt.target.closest('.elements__card').remove();
   });
  
 //IMAGE
@@ -124,7 +124,7 @@ function formSubmitCard(evt) {
     link : cardAboutInput.value
   };
   addCard(data);
-  evt.target.reset();
+  cardForm.reset(); 
   closeModal(card);
 }
 
@@ -151,9 +151,9 @@ cardAddButton.addEventListener('click', (evt) => {
 });
 
 //ОБРАБОТЧИК КНОПКИ ЗАКРЫТИЯ ВСЕХ МОДАЛЬНЫХ ОКН
-popupCloseButton.forEach((popupclosebutton) => {
-  const popup = popupclosebutton.closest('.popup');
-  popupclosebutton.addEventListener('click', () => closeModal(popup));
+popupCloseButton.forEach((popupClose) => {
+  const popup = popupClose.closest('.popup');
+  popupClose.addEventListener('click', () => closeModal(popup));
 });
 
 
