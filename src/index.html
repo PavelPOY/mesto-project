@@ -6,7 +6,6 @@
   <meta name="description" content="Страница третьего проекта в Яндекс Практикум">
   <meta name="keywords" content="HTML5, CSS, Flex, Grid">
   <meta name="author" content="Янчуков Павел">
-  <link rel='stylesheet' href='./pages/index.css'>
   <title>Mesto</title>
 </head>
 <body class="body">
@@ -14,7 +13,7 @@
   <div class="page">
     <!-- HEADER START -->
     <header class="header">
-      <img src="./images/header-logo.svg" alt="Логотип сайта" class="header__logo"/>
+      <img src="<%=require('./images/header-logo.svg')%>" alt="Логотип сайта" class="header__logo"/>
     </header>
     <!-- HEADER END -->
     <!-- MAIN START -->
@@ -22,7 +21,7 @@
 
       <!-- SECTION PROFILE START -->
       <section class="profile">
-        <img src="./images/profile-image.jpg" alt="Иследователь Жак-Ив Кусто" class="profile__image"/>
+        <img src="<%=require('./images/profile-image.jpg')%>" alt="Иследователь Жак-Ив Кусто" class="profile__image"/>
         <div class="profile__info">
           <div class="profile__wrapper">
             <h1 class="profile__name">Жак-Ив Кусто</h1>
@@ -55,9 +54,11 @@
     <section id="profile" class="popup">
       <div class="popup__container">
         <h2 class="popup__title">Редактировать профиль</h2>
-        <form class="popup__form" name="profile-form">
-          <input class="popup__input" type="text" name="profile-name" placeholder="Жак-Ив Кусто">
-          <input class="popup__input" type="text" name="profile-about" placeholder="Исcледователь океана">
+        <form class="popup__form" name="profile-form" novalidate>
+          <input class="popup__input" type="text" name="profile-name" placeholder="Жак-Ив Кусто" id="profilename-input" minlength='2' maxlength='40' pattern='^[a-zA-Zа-яА-ЯёЁ\s-]+$' required>
+          <span class="popup__error profilename-input-error"></span>
+          <input class="popup__input" type="text" name="profile-about" placeholder="Исcледователь океана" id="profileabout-input" minlength='2' maxlength='200' pattern='^[a-zA-Zа-яА-ЯёЁ\s-]+$' required>
+          <span class="popup__error profileabout-input-error"></span>
           <button class="popup__save-button" type="submit">Сохранить</button>
         </form>
         <button class="popup__close-button" type="button"></button>
@@ -71,9 +72,11 @@
     <section id="card" class="popup">
       <div class="popup__container">
         <h2 class="popup__title">Новое Место</h2>
-        <form class="popup__form" name="card-form">
-          <input class="popup__input" type="text" name="card-name" placeholder="Название">
-          <input class="popup__input" type="text" name="card-about" placeholder="Ссылка на картинку">
+        <form class="popup__form" name="card-form" novalidate>
+          <input class="popup__input" type="text" name="card-name" placeholder="Название" id="cardname-input" minlength='2' maxlength='30' pattern='^[a-zA-Zа-яА-ЯёЁ\s-]+$' required>
+          <span class="popup__error cardname-input-error"></span>
+          <input class="popup__input" type="url" name="card-about" placeholder="Ссылка" id="cardabout-input" required>
+          <span class="popup__error cardabout-input-error"></span>
           <button class="popup__save-button" type="submit">Сохранить</button>
         </form>
         <button class="popup__close-button" type="button"></button>
@@ -85,7 +88,7 @@
     <!-- SECTION POPUP IMAGE START-->
     <section id="image" class="popup popup_image-background">
       <div class="popup__image-container">
-        <img src="./images/Karachaevsk.png" alt="Карачаево-Черкесия" class="popup__image">
+        <img src="" alt="" class="popup__image">
         <p class="popup__image-caption">Карачаево-Черкесия</p>
         <button class="popup__close-button" type="button"></button>
       </div>
@@ -107,6 +110,5 @@
 
   </div>
   <!-- Основной контейнер END -->
-  <script src="./index.js"></script>
 </body>
 </html>

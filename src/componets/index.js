@@ -1,5 +1,12 @@
+
+import '../pages/index.css';
+import {addCard} from './cards.js'; 
+import {openModal, closeModal, closeOverlay} from './modal.js';
+import {enableValidation} from './validate.js';
+
 // GENERAL ПЕРЕМЕННЫЕ
 const popupCloseButton = document.querySelectorAll ('.popup__close-button')
+const popup = document.querySelectorAll('.popup');
 
 // PROFILE ПЕРЕМЕННЫЕ
 const profile = document.querySelector('#profile')
@@ -55,20 +62,6 @@ const initialCards = [
 ]; 
 
 
-//ФУНКЦИЯ ОТКРЫТИЯ МОДАЛЬНОГО ОКНА
-function openModal(element){
-  element.classList.add('popup_opened');  
-}
-
-//ФУНКЦИЯ ЗАКРЫТИЯ МОДАЛЬНОГО ОКНА
-function closeModal(element){
-  element.classList.remove('popup_opened');  
-}
-
-//ФУНКЦИЯ ДОБАВЛЕНИЯ НОВОЙ КАРТОЧКИ
-function addCard(data) {
-  cardelements.prepend(createCard(data));
-}
 
 //ФУНКЦИЯ СОХРАНЕНИЯ ПОЛЯ ПРОФИЛЯ
 function saveEditProfile() {
@@ -76,44 +69,12 @@ function saveEditProfile() {
   profileAboutInput.value = profileAbout.textContent; 
 }
   
-//ФУНКЦИЯ ДОБАВЛЕНИЯ НОВОГО ТЕКСТА В ПОЛЕ ПРОФИЛЯ
+//ФУНКЦИЯ SUBMIT ДОБАВЛЕНИЯ НОВОГО ТЕКСТА В ПОЛЕ ПРОФИЛЯ
 function formSubmitProfile(evt) {
     evt.preventDefault();
     profileName.textContent = profileNameInput.value;
     profileAbout.textContent = profileAboutInput.value;
     closeModal(profile);
-}
-
-//СОЗДАНИЕ НОВОЙ КАРТОЧКИ
-function createCard(data) {
-  const cardElement = cardTemplate.cloneNode(true);
-  const cardTitle = cardElement.querySelector('.elements__title');
-  const cardLike = cardElement.querySelector('.elements__button');
-  const cardDelete = cardElement.querySelector('.elements__button-delete');
-  const cardImage = cardElement.querySelector('.elements__image');
-
-  cardTitle.textContent = data.name;
-  cardImage.src = data.link;
-  cardImage.alt = data.name;
-
-//LIKE
-  cardLike.addEventListener('click', (evt) => {
-    evt.target.classList.toggle('elements__button_active');
-  });
-//DELETE
-  cardDelete.addEventListener('click', (evt) => {
-    evt.target.closest('.elements__card').remove();
-  });
- 
-//IMAGE
-  cardImage.addEventListener('click', (evt) => {
-    openModal(imageContainer);
-    caption.textContent = data.name;
-    image.src = data.link;
-    image.alt = data.name;
-  });
-  
-  return cardElement;
 }
 
 //ФУНКЦИЯ SUBMIT ДОБАВЛЕНИЯ КАРТОЧКИ
@@ -123,15 +84,10 @@ function formSubmitCard(evt) {
     name : cardNameInput.value,
     link : cardAboutInput.value
   };
-  addCard(data);
+  cardelements.prepend(createCard(data));
   cardForm.reset(); 
   closeModal(card);
 }
-
-//ДОБАВЛЕНИЕ КАРТОЧЕК В DOOM
-initialCards.forEach((data) => {
-  addCard(data);
-});
 
 //ОБРАБОТЧИК ДЛЯ ДОБАВЛЕНИЯ НОВОГО ТЕКСТА В ПОЛЯ ПРОФИЛЯ
 profileForm.addEventListener('submit', formSubmitProfile);
@@ -140,20 +96,36 @@ profileForm.addEventListener('submit', formSubmitProfile);
 cardForm.addEventListener('submit', formSubmitCard);
 
 //ОБРАБОТЧИК КНОПКИ ОТКРЫТИЯ РЕДАКТИРОВАНИЯ ПРОФИЛЯ
-profileEditButton.addEventListener('click', (evt) => {
+profileEditButton.addEventListener('click', () => {
     saveEditProfile();
     openModal(profile);
 });
 
 //ОБРАБОТЧИК КНОПКИ ОТКРЫТИЯ ДОБАВЛЕНИЯ НОВЫХ КАРТ
-cardAddButton.addEventListener('click', (evt) => {
+cardAddButton.addEventListener('click', () => {
   openModal(card);
 });
 
 //ОБРАБОТЧИК КНОПКИ ЗАКРЫТИЯ ВСЕХ МОДАЛЬНЫХ ОКН
-popupCloseButton.forEach((popupClose) => {
+popupCloseButton.forEach( popupClose => {
   const popup = popupClose.closest('.popup');
   popupClose.addEventListener('click', () => closeModal(popup));
 });
 
+//ОБРАБОТЧИК КНОПКИ ЗАКРЫТИЯ МОДАЛЬНОГО ОКНА ПО "OVERLAY"
+popup.forEach( popupElement => {
+  popupElement.addEventListener('click', closeOverlay);
+});
 
+enableValidation({
+  formSelector: '.popup__form',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__save-button',
+  inactiveButtonClass: 'popup__save-button_disabled',
+  inputErrorClass: 'popup__input_error',
+  errorClass: 'popup_error_visible'
+});
+
+addCard(initialCards);
+
+export {cardelements, cardTemplate, imageContainer, image, caption};
