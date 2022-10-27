@@ -1,3 +1,4 @@
+import {openModal} from './modal.js';
 import {cardelements, cardTemplate, imageContainer, image, caption} from './index.js';
 
 //СОЗДАНИЕ НОВОЙ КАРТОЧКИ

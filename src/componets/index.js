@@ -1,6 +1,6 @@
 
 import '../pages/index.css';
-import {addCard} from './cards.js'; 
+import {createCard, addCard} from './cards.js'; 
 import {openModal, closeModal, closeOverlay} from './modal.js';
 import {enableValidation} from './validate.js';
 
