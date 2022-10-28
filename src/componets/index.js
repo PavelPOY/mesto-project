@@ -1,12 +1,13 @@
 
 import '../pages/index.css';
-import {createCard, addCard} from './cards.js'; 
+import {createCard} from './cards.js'; 
 import {openModal, closeModal, closeOverlay} from './modal.js';
-import {enableValidation} from './validate.js';
+import {enableValidation, hideAllInputError} from './validate.js';
+import {initialCards} from './constants.js';
 
 // GENERAL ПЕРЕМЕННЫЕ
 const popupCloseButton = document.querySelectorAll ('.popup__close-button')
-const popup = document.querySelectorAll('.popup');
+const allPopups = document.querySelectorAll('.popup');
 
 // PROFILE ПЕРЕМЕННЫЕ
 const profile = document.querySelector('#profile')
@@ -19,7 +20,7 @@ const profileEditButton = document.querySelector ('.profile__edit-button');
 
 // CARDS ПЕРЕМЕННЫЕ
 const card = document.querySelector('#card')
-const cardelements = document.querySelector('.elements')
+const cardElements = document.querySelector('.elements')
 const cardAddButton = document.querySelector('.profile__add-button');
 const cardNameInput = document.querySelector('[name="card-name"]');
 const cardAboutInput = document.querySelector('[name="card-about"]');
@@ -31,62 +32,55 @@ const imageContainer = document.querySelector('#image')
 const image = document.querySelector('.popup__image');
 const caption = document.querySelector('.popup__image-caption');
 
-
-// INITIALCARDS
-
-const initialCards = [
-    {
-      name: 'Архыз',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-    },
-    {
-      name: 'Челябинская область',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-    },
-    {
-      name: 'Иваново',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-    },
-    {
-      name: 'Камчатка',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-    },
-    {
-      name: 'Холмогорский район',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-    },
-    {
-      name: 'Байкал',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-    }
-]; 
-
-
+// ОБЪЕКТ ВАЛИДАЦИИ
+const validation = {
+  formSelector: '.popup__form',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__save-button',
+  inactiveButtonClass: 'popup__save-button_disabled',
+  inputErrorClass: 'popup__input_error',
+  errorClass: 'popup_error_visible'
+};
 
 //ФУНКЦИЯ СОХРАНЕНИЯ ПОЛЯ ПРОФИЛЯ
-function saveEditProfile() {
+function fillInEditProfileFormInputs() {
   profileNameInput.value = profileName.textContent;
   profileAboutInput.value = profileAbout.textContent; 
 }
-  
-//ФУНКЦИЯ SUBMIT ДОБАВЛЕНИЯ НОВОГО ТЕКСТА В ПОЛЕ ПРОФИЛЯ
-function formSubmitProfile(evt) {
-    evt.preventDefault();
-    profileName.textContent = profileNameInput.value;
-    profileAbout.textContent = profileAboutInput.value;
-    closeModal(profile);
+
+//ФУНКЦИЯ СОХРАНЕНИЯ ДАННЫХ ПРОФИЛЯ
+function setUserInfo() {
+  profileName.textContent = profileNameInput.value;
+  profileAbout.textContent = profileAboutInput.value;
+}
+
+//ФУНКЦИЯ ДОБАВЛЕНИЯ НОВОЙ КАРТОЧКИ
+function addCard() {
+  const data = {
+    name : cardNameInput.value,
+    link : cardAboutInput.value
+  };
+  cardElements.prepend(createCard(data, cardTemplate, imageContainer, image, caption));
+}
+
+//ФУНКЦИЯ ДОБАВЛЕНИЯ ВСЕХ
+function renderCards(data) {
+  data.forEach(data => cardElements.append(createCard(data, cardTemplate, imageContainer, image, caption)));
 }
 
 //ФУНКЦИЯ SUBMIT ДОБАВЛЕНИЯ КАРТОЧКИ
 function formSubmitCard(evt) {
   evt.preventDefault();
-  const data = {
-    name : cardNameInput.value,
-    link : cardAboutInput.value
-  };
-  cardelements.prepend(createCard(data));
+  addCard();
   cardForm.reset(); 
   closeModal(card);
+}
+
+//ФУНКЦИЯ SUBMIT ДОБАВЛЕНИЯ НОВОГО ТЕКСТА В ПОЛЕ ПРОФИЛЯ
+function formSubmitProfile(evt) {
+  evt.preventDefault();
+  setUserInfo();
+  closeModal(profile);
 }
 
 //ОБРАБОТЧИК ДЛЯ ДОБАВЛЕНИЯ НОВОГО ТЕКСТА В ПОЛЯ ПРОФИЛЯ
@@ -97,12 +91,14 @@ cardForm.addEventListener('submit', formSubmitCard);
 
 //ОБРАБОТЧИК КНОПКИ ОТКРЫТИЯ РЕДАКТИРОВАНИЯ ПРОФИЛЯ
 profileEditButton.addEventListener('click', () => {
-    saveEditProfile();
-    openModal(profile);
+  hideAllInputError(profileForm, validation);
+  fillInEditProfileFormInputs();
+  openModal(profile);
 });
 
 //ОБРАБОТЧИК КНОПКИ ОТКРЫТИЯ ДОБАВЛЕНИЯ НОВЫХ КАРТ
 cardAddButton.addEventListener('click', () => {
+  hideAllInputError(cardForm, validation);
   openModal(card);
 });
 
@@ -113,19 +109,11 @@ popupCloseButton.forEach( popupClose => {
 });
 
 //ОБРАБОТЧИК КНОПКИ ЗАКРЫТИЯ МОДАЛЬНОГО ОКНА ПО "OVERLAY"
-popup.forEach( popupElement => {
+allPopups.forEach( popupElement => {
   popupElement.addEventListener('click', closeOverlay);
 });
 
-enableValidation({
-  formSelector: '.popup__form',
-  inputSelector: '.popup__input',
-  submitButtonSelector: '.popup__save-button',
-  inactiveButtonClass: 'popup__save-button_disabled',
-  inputErrorClass: 'popup__input_error',
-  errorClass: 'popup_error_visible'
-});
+enableValidation(validation);
+renderCards(initialCards);
 
-addCard(initialCards);
-
-export {cardelements, cardTemplate, imageContainer, image, caption};
+export {cardElements, cardTemplate, imageContainer, image, caption};

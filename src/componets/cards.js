@@ -1,8 +1,7 @@
 import {openModal} from './modal.js';
-import {cardelements, cardTemplate, imageContainer, image, caption} from './index.js';
 
 //СОЗДАНИЕ НОВОЙ КАРТОЧКИ
-function createCard(data) {
+function createCard(data, cardTemplate, imageContainer, image, caption) {
   const cardElement = cardTemplate.cloneNode(true);
   const cardTitle = cardElement.querySelector('.elements__title');
   const cardLike = cardElement.querySelector('.elements__button');
@@ -33,9 +32,4 @@ function createCard(data) {
   return cardElement;
 }
 
-//ФУНКЦИЯ ДОБАВЛЕНИЯ НОВОЙ КАРТОЧКИ
-function addCard(data) {
-  data.forEach(data => cardelements.append(createCard(data)));
-}
-
-export { createCard, addCard };
+export { createCard };

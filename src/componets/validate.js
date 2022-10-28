@@ -14,6 +14,14 @@ function hideInputError(formElement, inputElement, config) {
   errorElement.classList.remove(config.errorClass);
 }
 
+function hideAllInputError(formElement, config) {
+  const inputList = Array.from(formElement.querySelectorAll(config.inputSelector));
+
+  inputList.forEach(inputElement => {
+    hideInputError(formElement, inputElement, config);
+  });
+}
+
 //ПРОВЕРЯЕМ ВАЛИДНОСТЬ У ФОРМЫ
 function checkInputValidity(formElement, inputElement, config) {
   if (!inputElement.validity.valid) {
@@ -47,6 +55,12 @@ function setEventListeners(formElement, config) {
   const buttonElement = formElement.querySelector(config.submitButtonSelector);
   toggleButtonState(inputList, buttonElement, config);
 
+  formElement.addEventListener('reset', () => {
+    setTimeout(function() {
+      toggleButtonState(inputList, buttonElement, config);
+    }, 0)
+  });
+
   inputList.forEach(inputElement => {
     inputElement.addEventListener('input', () => {
       checkInputValidity(formElement, inputElement, config);
@@ -63,4 +77,4 @@ function enableValidation(config) {
   });
 }
 
-export {enableValidation};
+export {enableValidation, hideAllInputError};
