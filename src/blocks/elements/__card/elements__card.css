@@ -1,4 +1,6 @@
 .elements__card {
+  display: flex;
+  flex-direction: column;
   position: relative;
   font-size: 0;
 }
