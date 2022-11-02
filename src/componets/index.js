@@ -1,5 +1,5 @@
 import '../pages/index.css';
-import {getProfile, getCards, patchProfile, postCard, patchAvatar, user} from './api.js'; 
+import {getProfile, getCards, patchProfile, postCard, patchAvatar} from './api.js'; 
 import {createCard} from './cards.js'; 
 import {openModal, closeModal, closeOverlay} from './modal.js';
 import {enableValidation, hideAllInputError} from './validate.js';
@@ -7,6 +7,7 @@ import {enableValidation, hideAllInputError} from './validate.js';
 // GENERAL ПЕРЕМЕННЫЕ
 const popupCloseButton = document.querySelectorAll ('.popup__close-button')
 const allPopups = document.querySelectorAll('.popup');
+const user = {};
 
 // PROFILE ПЕРЕМЕННЫЕ
 const profile = document.querySelector('#profile')
@@ -62,6 +63,12 @@ Promise.all([getProfile(), getCards()])
   })
   .catch((error) => console.log(error));
 
+//ФУНКЦИЯ ИЗМЕНЕНИЯ КНОПКИ
+function disabledSubmit(button) {
+  button.disabled = true;
+  button.classList.add("popup__save-button_disabled");
+}
+
 //ФУНКЦИЯ ДОБАВЛЕНИЯ НОВОЙ КАРТОЧКИ
 function addCard(data) {
   cardElements.prepend(createCard(data, cardTemplate, imageContainer, image, caption));
@@ -87,11 +94,11 @@ function formSubmitCard(evt) {
   postCard(cardNameInput.value, cardAboutInput.value)
     .then((data) => {
       addCard(data);
+      closeModal(card);
     })
+    .then(() => cardForm.reset())
     .catch((error) => console.log(error))
-    .finally(() => setTimeout(() => cardSubmit.textContent = "Создать", 10000));
-  cardForm.reset(); 
-  closeModal(card);
+    .finally(() => cardSubmit.textContent = "Создать");
 }
 
 //ФУНКЦИЯ SUBMIT ДОБАВЛЕНИЯ НОВОГО ТЕКСТА В ПОЛЕ ПРОФИЛЯ
@@ -102,10 +109,11 @@ function formSubmitProfile(evt) {
     .then((data) => {
       profileName.textContent = data.name;
       profileAbout.textContent = data.about;
+      closeModal(profile);
     })
+    .then(() => profileForm.reset())
     .catch((error) => console.log(error)) 
-    .finally(() => setTimeout(() => profileSubmit.textContent = "Сохранить", 10000));
-  closeModal(profile);
+    .finally(() => profileSubmit.textContent = "Сохранить"); 
 }
 
 //ФУНКЦИЯ SUBMIT ДОБАВЛЕНИЯ ССЫЛКИ В АВАТАР
@@ -115,10 +123,11 @@ function formSubmitAvatar(evt) {
   patchAvatar(avatarInput.value)
     .then((data) => {
       avatarImage.src = data.avatar;
+      closeModal(avatar);
     })
+    .then(() => avatarForm.reset())
     .catch((error) => console.log(error))
-    .finally(() => setTimeout(() => avatarSubmit.textContent = "Сохранить", 10000));
-  closeModal(avatar);
+    .finally(() => avatarSubmit.textContent = "Сохранить");
 }
 
 //ОБРАБОТЧИК ДЛЯ ДОБАВЛЕНИЯ НОВОГО ТЕКСТА В ПОЛЯ ПРОФИЛЯ
@@ -138,6 +147,7 @@ profileEditButton.addEventListener('click', () => {
 
 //ОБРАБОТЧИК КНОПКИ ОТКРЫТИЯ ДОБАВЛЕНИЯ НОВЫХ КАРТ
 cardAddButton.addEventListener('click', () => {
+  disabledSubmit(cardSubmit)
   hideAllInputError(cardForm, validation);
   openModal(card);
 });

@@ -1,5 +1,6 @@
-import {deleteCard, deleteLike, putLike, user} from './api.js';
+import {deleteCard, deleteLike, putLike} from './api.js';
 import {openModal} from './modal.js';
+import {user} from './index.js';
 
 //ПРОВЕРКА ЛАЙКА
 function hasLiked(data) {

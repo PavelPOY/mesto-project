@@ -1,4 +1,9 @@
-const user = {};
+function getResponseData(res) {
+  if (!res.ok) {
+    return Promise.reject(`Ошибка: ${res.status}`); 
+  }
+  return res.json();
+} 
 
 const config = {
   baseUrl: "https://nomoreparties.co/v1/plus-cohort-16",
@@ -13,12 +18,9 @@ const getProfile = () => {
     method: "GET",
     headers: config.headers,
   })
-  .then(res => {
-    if (res.ok) {
-      return res.json();
-    }
-    return Promise.reject(`Ошибка: ${res.status}`);
-  });
+  .then((res) => {
+    return getResponseData(res);
+  })
 };
 
 const getCards = () => {
@@ -26,12 +28,9 @@ const getCards = () => {
     method: "GET",
     headers: config.headers,
   })
-  .then(res => {
-    if (res.ok) {
-      return res.json();
-    }
-    return Promise.reject(`Ошибка: ${res.status}`);
-  });
+  .then((res) => {
+    return getResponseData(res);
+  })
 };
 
 const patchProfile = (name, about) => {
@@ -43,12 +42,9 @@ const patchProfile = (name, about) => {
       about: about,
     }),
   })
-  .then(res => {
-    if (res.ok) {
-      return res.json();
-    }
-    return Promise.reject(`Ошибка: ${res.status}`);
-  });
+  .then((res) => {
+    return getResponseData(res);
+  })
 };
 
 const postCard = (name, link) => {
@@ -60,12 +56,9 @@ const postCard = (name, link) => {
       link: link,    
     }),
   })
-  .then(res => {
-    if (res.ok) {
-      return res.json();
-    }
-    return Promise.reject(`Ошибка: ${res.status}`);
-  });
+  .then((res) => {
+    return getResponseData(res);
+  })
 };
 
 const deleteCard = (cardId) => {
@@ -73,12 +66,9 @@ const deleteCard = (cardId) => {
     method: "DELETE",
     headers: config.headers,
   })
-  .then(res => {
-    if (res.ok) {
-      return res.json();
-    }
-    return Promise.reject(`Ошибка: ${res.status}`);
-  });
+  .then((res) => {
+    return getResponseData(res);
+  })
 };
 
 
@@ -87,12 +77,9 @@ const putLike = (cardId) => {
     method: "PUT",
     headers: config.headers,
   })
-  .then(res => {
-    if (res.ok) {
-      return res.json();
-    }
-    return Promise.reject(`Ошибка: ${res.status}`);
-  });
+  .then((res) => {
+    return getResponseData(res);
+  })
 };
 
 const deleteLike = (cardId) => {
@@ -100,12 +87,9 @@ const deleteLike = (cardId) => {
     method: "DELETE",
     headers: config.headers,
   })
-  .then(res => {
-    if (res.ok) {
-      return res.json();
-    }
-    return Promise.reject(`Ошибка: ${res.status}`);
-  });
+  .then((res) => {
+    return getResponseData(res);
+  })
 };
 
 const patchAvatar = (avatarLink) => {
@@ -116,12 +100,9 @@ const patchAvatar = (avatarLink) => {
       avatar: avatarLink
     })
   })
-  .then(res => {
-    if (res.ok) {
-      return res.json();
-    }
-    return Promise.reject(`Ошибка: ${res.status}`);
-  });
+  .then((res) => {
+    return getResponseData(res);
+  })
 };
 
-export { getProfile, getCards, patchProfile, postCard, deleteCard, putLike, deleteLike, patchAvatar, user};
+export { getProfile, getCards, patchProfile, postCard, deleteCard, putLike, deleteLike, patchAvatar};
