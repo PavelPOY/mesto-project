@@ -63,6 +63,12 @@ Promise.all([getProfile(), getCards()])
   })
   .catch((error) => console.log(error));
 
+//ФУНКЦИЯ СОХРАНЕНИЯ ПОЛЯ ПРОФИЛЯ 
+function fillInEditProfileFormInputs() { 
+  profileNameInput.value = profileName.textContent; 
+  profileAboutInput.value = profileAbout.textContent;  
+} 
+
 //ФУНКЦИЯ ИЗМЕНЕНИЯ КНОПКИ
 function disabledSubmit(button) {
   button.disabled = true;
@@ -111,7 +117,6 @@ function formSubmitProfile(evt) {
       profileAbout.textContent = data.about;
       closeModal(profile);
     })
-    .then(() => profileForm.reset())
     .catch((error) => console.log(error)) 
     .finally(() => profileSubmit.textContent = "Сохранить"); 
 }
@@ -141,6 +146,7 @@ avatarForm.addEventListener('submit', formSubmitAvatar);
 
 //ОБРАБОТЧИК КНОПКИ ОТКРЫТИЯ РЕДАКТИРОВАНИЯ ПРОФИЛЯ
 profileEditButton.addEventListener('click', () => {
+  fillInEditProfileFormInputs();
   hideAllInputError(profileForm, validation);
   openModal(profile);
 });
